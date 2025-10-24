@@ -1,0 +1,149 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Rekomendasi') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+                    Data Rekomendasi Admin
+                </h2>
+
+                <div class="flex justify-end mb-3">
+                    <button onclick="openModal({{ $show->id }})"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Edit Data
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+                        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-left">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold">Jenis Organisasi</th>
+                                <th class="px-4 py-3 font-semibold">Aktif melibatkan anggota</th>
+                                <th class="px-4 py-3 font-semibold">Mayoritas Gender</th>
+                                <th class="px-4 py-3 font-semibold">Faktor Prioritas</th>
+                                <th class="px-4 py-3 font-semibold">Jenis Kegiatan</th>
+                                <th class="px-4 py-3 font-semibold">Tingkat Komitmen</th>
+                                <th class="px-4 py-3 font-semibold">Frekuensi Kegiatan</th>
+                                <th class="px-4 py-3 font-semibold">Dukungan Non-Akademik</th>
+                                <th class="px-4 py-3 font-semibold">Alasan Dukungan</th>
+                                <th class="px-4 py-3 font-semibold">Target Jangka Pendek</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-gray-900 dark:text-gray-200">
+                            <tr>
+                                <td class="px-4 py-3">{{ $show->question2 }}</td>
+                                <td class="px-4 py-3">{{ $show->question1 }}</td>
+                                <td class="px-4 py-3">{{ $show->JK }}</td>
+                                <td class="px-4 py-3">{{ $show->question3 }}</td>
+                                <td class="px-4 py-3">{{ $show->question4 }}</td>
+                                <td class="px-4 py-3">{{ $show->question5 }}</td>
+                                <td class="px-4 py-3">{{ $show->question6 }}</td>
+                                <td class="px-4 py-3">{{ $show->question7 }}</td>
+                                <td class="px-4 py-3">{{ $show->question8 }}</td>
+                                <td class="px-4 py-3">{{ $show->question9 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Update -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl w-3/4 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Edit Data Rekomendasi</h3>
+            <form id="updateForm">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="id" id="editId">
+
+                <div class="grid grid-cols-2 gap-4">
+                    @php
+                        $labels = [
+                            'question2' => 'Jenis organisasi apa yang paling menggambarkan organisasi ini?',
+                            'question1' => 'Apakah organisasi ini aktif melibatkan anggotanya dalam kegiatan secara rutin?',
+                            'JK'        => 'Mayoritas Gender di organisasi ini adalah',
+                            'question3' => 'Apa faktor utama yang menjadi prioritas dalam organisasi ini?',
+                            'question4' => 'Jenis kegiatan apa yang paling sering dilakukan oleh organisasi ini?',
+                            'question5' => 'Tingkat komitmen yang diharapkan dari anggota dalam organisasi ini?',
+                            'question6' => 'Seberapa sering organisasi ini menyelenggarakan kegiatan?',
+                            'question7' => 'Seberapa besar organisasi ini mendorong anggotanya aktif di luar kegiatan akademik?',
+                            'question8' => 'Alasan utama organisasi ini mendorong anggotanya aktif di luar kegiatan akademik?',
+                            'question9' => 'Target jangka pendek apa yang ingin dicapai organisasi ini?',
+                        ];
+                    @endphp
+
+                    @foreach($labels as $field => $label)
+                        <div>
+                            <label class="block mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                {{ $label }}
+                            </label>
+                            <select name="{{ $field }}" id="edit{{ ucfirst($field) }}"
+                                class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200">
+                                @foreach($mappings[$field] as $opt)
+                                    <option value="{{ $opt }}">{{ $opt }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-4 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal()"
+                        class="px-4 py-2 bg-gray-400 text-white rounded-lg">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) {
+            fetch(`/recmawa/${id}/edit`) // ✅ disamakan dengan route
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('editId').value = data.id;
+
+                    const fields = ['question1', 'JK', 'question2', 'question3', 'question4',
+                        'question5', 'question6', 'question7', 'question8', 'question9'];
+
+                    fields.forEach(f => {
+                        let select = document.getElementById('edit' + f.charAt(0).toUpperCase() + f.slice(1));
+                        if (select) {
+                            select.value = data[f];
+                        }
+                    });
+                });
+
+            document.getElementById('editModal').classList.remove('hidden');
+            document.getElementById('editModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        document.getElementById('updateForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let id = document.getElementById('editId').value;
+            let formData = new FormData(this);
+
+            fetch(`/recmawa/${id}`, { // ✅ update URL
+                method: 'POST',
+                body: formData,
+                headers: { 'X-HTTP-Method-Override': 'PUT' }
+            }).then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload();
+                });
+        });
+    </script>
+</x-app-layout>
