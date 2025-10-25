@@ -12,7 +12,7 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - optima
+            - mangg-network
 networks:
-    optima:
+    mangg-network:
         external: true
