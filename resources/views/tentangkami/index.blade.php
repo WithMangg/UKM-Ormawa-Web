@@ -43,7 +43,7 @@
                     <div class="flex gap-4 items-start">
                         <div class="text-indigo-600 text-xl">📧</div>
                         <div>
-                            <h4 class="font-semibold text-lg">Email</h4>
+                            <h4 class="font-semibold text-lg">Instagram</h4>
                             <p class="text-sm mt-1">{{ $abouts->email }}</p>
                         </div>
                     </div>

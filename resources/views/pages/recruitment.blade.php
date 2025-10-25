@@ -20,7 +20,7 @@
    <!-- Responsive-->
    <link rel="stylesheet" href="css/responsive.css">
    <!-- fevicon -->
-   <link rel="icon" href="images/fevicon.png" type="image/gif" />
+   <link rel="icon" href="images/logouhn.png" type="image/gif" />
    <!-- Tweaks for older IEs-->
    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
    <!-- Tambahkan di bagian head atau sebelum </body> -->
@@ -447,7 +447,8 @@
          <div class="container">
             <div class="row">
                <div class="col-md-12">
-                  <p>© 2020 All Rights Reserved. Design by <a href="https://html.design/"> Free html Templates</a></p>
+                   <p>© 2025 All Rights Reserved</a></p>
+                  <!-- <p>© 2020 All Rights Reserved. Design by <a href="https://html.design/"> Free html Templates</a></p> -->
                </div>
             </div>
          </div>

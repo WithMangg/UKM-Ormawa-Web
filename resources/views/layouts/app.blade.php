@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="/images/logo-harber.png">
+        <link rel="icon" type="image/png" href="/images/logouhn.png">
         <title>Website Ormawa Connect</title>
 
         <!-- Fonts -->

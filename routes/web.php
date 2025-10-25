@@ -85,6 +85,7 @@ Route::middleware(['auth', 'can:manage ukm'])->group(function () {
 
 Route::middleware(['auth', 'can:manage ormawa'])->group(function () {
     Route::resource('ormawa', OrmawaController::class);
+    Route::get('/recmawa/show', [RecMawaController::class, 'show'])->name('recmawa.show');
 Route::get('/recmawa/{id}/edit', [RecMawaController::class, 'edit']);
 Route::put('/recmawa/{id}', [RecMawaController::class, 'update'])->name('recmawa.update');
 

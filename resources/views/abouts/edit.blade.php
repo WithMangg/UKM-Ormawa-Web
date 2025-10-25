@@ -42,7 +42,7 @@
                     </div>
 
                     <div>
-                        <x-input-label for="email" :value="__('Email')" />
+                        <x-input-label for="email" :value="__('Instagram')" />
                         <x-text-input id="email" class="block mt-1 w-full" type="text" name="email"
                          value="{{  $abouts->email }}"
                           required autofocus autocomplete="email" />

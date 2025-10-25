@@ -242,7 +242,7 @@
 
 
         footer {
-            background: #00244D;
+            background: #540303ff;
             color: white;
             text-align: center;
             padding: 20px 10px;
@@ -277,7 +277,9 @@
         <section class="hero-banner">
             <h1>{{ $abouts->nama_organisasi }}</h1>
             <p>{{ $abouts->slogan }}</p>
-            <a href="{{ route('recruitment') }}" class="btn-primary-custom">Daftar Sekarang</a>
+            <a href="{{ route('recruitment') }}" class="btn-primary-custom" onclick="event.preventDefault();">Daftar Sekarang</a>
+
+            <!-- <a href="{{ route('recruitment') }}" class="btn-primary-custom">Daftar Sekarang</a> -->
         </section>
 
         <!-- Tentang Kami -->
@@ -306,10 +308,26 @@
         <!-- Kontak -->
         <section class="contact-section">
             <p class="section-title">Informasi lebih lanjut hubungi kami:</p>
+            <br>
+            <br>
             <ul class="contact-list">
-                @if ($abouts->email)
+                 @if ($abouts->email)
+            @php
+                // Cek apakah sudah berupa URL lengkap
+                $instaLink = Str::startsWith($abouts->email, ['http://', 'https://'])
+                    ? $abouts->email
+                    : 'https://instagram.com/' . ltrim($abouts->email, '@');
+            @endphp
+            <li>
+                <i class="fa fa-instagram"></i>
+                <a href="{{ $instaLink }}" target="_blank" style="text-decoration:none; color:inherit;">
+                    {{ $abouts->email }}
+                </a>
+            </li>
+        @endif
+                <!-- @if ($abouts->email)
                     <li><i class="fa fa-envelope"></i> {{ $abouts->email }}</li>
-                @endif
+                @endif -->
                 @if ($abouts->nomer_telepon)
                     <li><i class="fa fa-phone"></i> {{ $abouts->nomer_telepon }}</li>
                 @endif

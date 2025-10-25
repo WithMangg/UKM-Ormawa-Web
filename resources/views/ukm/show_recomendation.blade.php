@@ -35,7 +35,8 @@
                                 <th class="px-4 py-3 font-semibold">Target Jangka Pendek</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-gray-900 dark:text-gray-200">
+                        <tbody
+                            class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-gray-900 dark:text-gray-200">
                             <tr>
                                 <td class="px-4 py-3">{{ $show->question2 }}</td>
                                 <td class="px-4 py-3">{{ $show->question1 }}</td>
@@ -70,7 +71,7 @@
                         $labels = [
                             'question2' => 'Jenis organisasi apa yang paling menggambarkan organisasi ini?',
                             'question1' => 'Apakah organisasi ini aktif melibatkan anggotanya dalam kegiatan secara rutin?',
-                            'JK'        => 'Mayoritas Gender di organisasi ini adalah',
+                            'JK' => 'Mayoritas Gender di organisasi ini adalah',
                             'question3' => 'Apa faktor utama yang menjadi prioritas dalam organisasi ini?',
                             'question4' => 'Jenis kegiatan apa yang paling sering dilakukan oleh organisasi ini?',
                             'question5' => 'Tingkat komitmen yang diharapkan dari anggota dalam organisasi ini?',
@@ -79,6 +80,23 @@
                             'question8' => 'Alasan utama organisasi ini mendorong anggotanya aktif di luar kegiatan akademik?',
                             'question9' => 'Target jangka pendek apa yang ingin dicapai organisasi ini bagi anggotanya melalui keikutsertaan dalam kegiatan di luar akademik?',
                         ];
+                    @endphp
+
+                    @php
+                        if (!isset($mappings)) {
+                            $mappings = [
+                                'question1' => ['Ya', 'Tidak'],
+                                'JK' => ['Laki-Laki', 'Perempuan', 'Laki-Laki dan Perempuan'],
+                                'question2' => ['Organisasi pengembangan jiwa kepemimpinan', 'Organisasi pengembangan minat bakat ( seni, olahraga, literasi, teknologi)'],
+                                'question3' => ['Lingkungan yang mendukung dan positif', 'Peluang belajar dan berkembang', 'Kesempatan untuk menunjukkan hasil atau prestasi', 'Ruang untuk mengekspresikan ide'],
+                                'question4' => ['Kompetisi', 'Kolaborasi Tim', 'Kegiatan Fisik', 'Kreativitas', 'Sosial', 'Pengabdian Masyarakat'],
+                                'question5' => ['Komitmen Besar', 'Cukup Besar', 'Sedang', 'Kecil'],
+                                'question6' => ['Sering', 'Cukup', 'Kadang-kadang'],
+                                'question7' => ['Besar', 'Cukup', 'Biasa saja', 'Tidak tertarik'],
+                                'question8' => ['Membangun jaringan/relasi', 'Menambah pengalaman', 'Melatih soft skill', 'Meningkatkan CV/portofolio'],
+                                'question9' => ['Pengembangan diri', 'Belajar hal baru', 'Eksplorasi minat', 'Keseruan dan kebersamaan'],
+                            ];
+                        }
                     @endphp
 
                     @foreach($labels as $field => $label)
@@ -105,64 +123,64 @@
     </div>
 
     <script>
-function openModal(id) {
-    fetch(`/recommendation/${id}/edit`)
-        .then(async res => {
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(`Gagal ambil data (${res.status}): ${text}`);
-            }
-            return res.json();
-        })
-        .then(data => {
-            console.log('Data dari server:', data);
-            document.getElementById('editId').value = data.id;
+        function openModal(id) {
+            fetch(`/recommendation/${id}/edit`)
+                .then(async res => {
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(`Gagal ambil data (${res.status}): ${text}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('Data dari server:', data);
+                    document.getElementById('editId').value = data.id;
 
-            const fields = ['question1', 'JK', 'question2', 'question3', 'question4',
-                'question5', 'question6', 'question7', 'question8', 'question9'];
+                    const fields = ['question1', 'JK', 'question2', 'question3', 'question4',
+                        'question5', 'question6', 'question7', 'question8', 'question9'];
 
-            fields.forEach(f => {
-                const select = document.getElementById('edit' + f.charAt(0).toUpperCase() + f.slice(1));
-                if (select) select.value = data[f] ?? '';
-            });
+                    fields.forEach(f => {
+                        const select = document.getElementById('edit' + f.charAt(0).toUpperCase() + f.slice(1));
+                        if (select) select.value = data[f] ?? '';
+                    });
 
-            document.getElementById('editModal').classList.remove('hidden');
-            document.getElementById('editModal').classList.add('flex');
-        })
-        .catch(err => console.error('Gagal memuat data:', err));
-}
-
-function closeModal() {
-    document.getElementById('editModal').classList.add('hidden');
-}
-
-document.getElementById('updateForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const id = document.getElementById('editId').value;
-    const formData = new FormData(this);
-
-    fetch(`/recommendation/${id}`, {
-        method: 'POST',
-        body: formData,
-        headers: { 
-            'X-HTTP-Method-Override': 'PUT',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    document.getElementById('editModal').classList.remove('hidden');
+                    document.getElementById('editModal').classList.add('flex');
+                })
+                .catch(err => console.error('Gagal memuat data:', err));
         }
-    })
-        .then(async res => {
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(`Update gagal (${res.status}): ${text}`);
-            }
-            return res.json();
-        })
-        .then(data => {
-            console.log('Respons update:', data);
-            alert(data.message || 'Data berhasil diperbarui!');
-            location.reload();
-        })
-        .catch(err => console.error('Gagal menyimpan:', err));
-});
-</script>
+
+        function closeModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        document.getElementById('updateForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('editId').value;
+            const formData = new FormData(this);
+
+            fetch(`/recommendation/${id}`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-HTTP-Method-Override': 'PUT',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+                .then(async res => {
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(`Update gagal (${res.status}): ${text}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('Respons update:', data);
+                    alert(data.message || 'Data berhasil diperbarui!');
+                    location.reload();
+                })
+                .catch(err => console.error('Gagal menyimpan:', err));
+        });
+    </script>
 
 </x-app-layout>

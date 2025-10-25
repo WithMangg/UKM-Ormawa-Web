@@ -13,7 +13,7 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-   <link rel="icon" href="{{ asset('images/fevicon.png') }}" type="image/gif" />
+   <link rel="icon" href="{{ asset('images/logouhn.png') }}" type="image/gif" />
 
    <style>
     .news-section {
@@ -122,7 +122,7 @@
          <div class="container">
             <div class="row">
                <div class="col-md-12">
-                  <p>© 2024 All Rights Reserved.</p>
+                  <p>© 2025 All Rights Reserved</a></p>
                </div>
             </div>
          </div>
