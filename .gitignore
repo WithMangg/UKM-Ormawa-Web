@@ -3,6 +3,10 @@
 /public/hot
 /public/storage
 /storage/*.key
+
+/storage
+!/storage/.gitignore
+
 /storage/*
 !/storage/app/
 !/storage/app/public/
@@ -20,3 +24,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+/storage/app/public/foto_kegiatan
